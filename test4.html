@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christmas Greetings</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://threejs.org/build/three.min.js"></script>
+    <script>
+        var scene, camera, renderer;
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            // Tạo cây thông Noel 3D
+            var treeGeometry = new THREE.ConeGeometry(2, 5, 8);
+            var treeMaterial = new THREE.MeshBasicMaterial({ color: 0x228B22 }); // DarkGreen
+            var christmasTree = new THREE.Mesh(treeGeometry, treeMaterial);
+            christmasTree.position.set(0, -2, -10);
+            scene.add(christmasTree);
+
+            // Tạo ông già Noel 3D
+            var santaGeometry = new THREE.BoxGeometry(1, 2, 1);
+            var santaMaterial = new THREE.MeshBasicMaterial({ color: 0xFF0000 }); // Red
+            var santaClaus = new THREE.Mesh(santaGeometry, santaMaterial);
+            santaClaus.position.set(0, -2, -5);
+            scene.add(santaClaus);
+
+            // Tạo lời chúc giáng sinh
+            var loader = new THREE.FontLoader();
+            loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+                var textGeometry = new THREE.TextGeometry("Merry Christmas!", {
+                    font: font,
+                    size: 0.5,
+                    height: 0.05
+                });
+                var textMaterial = new THREE.MeshBasicMaterial({ color: 0xFFFFFF }); // White
+                var textMesh = new THREE.Mesh(textGeometry, textMaterial);
+                textMesh.position.set(-3, -2, -10);
+                scene.add(textMesh);
+            });
+
+            camera.position.z = 5;
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            renderer.render(scene, camera);
+        }
+
+        init();
+        animate();
+    </script>
+</body>
+</html>
